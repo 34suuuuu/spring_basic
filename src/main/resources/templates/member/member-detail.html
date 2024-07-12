@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>회원 상세 조회</title>
 </head>
 <body>
-<h1><span th:text="${id}"></span> 회원 상세 조회</h1>
+<div th:replace="member/header :: headerFragment"></div>
+<table>
+    <tr>
+        id: <td th:text="${member.id}"></td>
+        name: <td th:text="${member.name}"></td>
+        email: <td th:text="${member.email}"></td>
+        password: <td th:text="${member.password}"></td>
+    </tr>
+</table>
 </body>
 </html>
