@@ -3,6 +3,8 @@ package com.beyond.basic.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,17 +13,21 @@ import com.beyond.basic.domain.MemberDetailResDto;
 import com.beyond.basic.domain.MemberReqDto;
 import com.beyond.basic.domain.MemberResDto;
 import com.beyond.basic.repository.MemberJdbcRepository;
+import com.beyond.basic.repository.MemberJpaRepository;
 import com.beyond.basic.repository.MemberMemoryRepository;
 import com.beyond.basic.repository.MemberMyBatisRepository;
 import com.beyond.basic.repository.MemberRepository;
 
 // input값의 검증 및 실질적인 비니지스 로직은 서비스 계층에서 수행
 @Service    //서비스 계층임을 표현한과 동시에 싱긅톤 객체로 생성
+// Transactional 어노테이션을 통해 모든 메서드에 트랜잭션을 적용하고, 만약 예외가 발생시 롤백처리 자동화(각 메서드마다 하나의 트랜잭션으로 묶는다는 뜻)
+
+@Transactional
 public class MemberService {
 	private final MemberRepository memberRepository;
 
 	@Autowired	//싱글톤 객체를 주입(DI) 받는다는 것을 의미
-	public MemberService(MemberMyBatisRepository memberMemoryRepository){
+	public MemberService(MemberJpaRepository memberMemoryRepository){
 		this.memberRepository = memberMemoryRepository;
 	}
 
