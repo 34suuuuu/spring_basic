@@ -2,6 +2,7 @@ package com.beyond.basic.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -24,7 +25,7 @@ public class MemberMemoryRepository implements MemberRepository{
 	}
 
 	@Override
-	public Member findById(Long id) {
+	public Optional<Member> findById(Long id) {
 		return null;
 	}
 

@@ -2,6 +2,7 @@ package com.beyond.basic.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
@@ -34,10 +35,10 @@ public class MemberJpaRepository implements MemberRepository{
 	}
 
 	@Override
-	public Member findById(Long id) {
+	public Optional<Member> findById(Long id) {
 		// entitymanager를 통해 find(리턴타입 클래스 지정 및 매개변수로 pk필요)
 		Member member = entityManager.find(Member.class, id);
-		return member;
+		return Optional.ofNullable(member);
 	}
 
 	public Member findByEmail(String email) {

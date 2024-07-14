@@ -28,12 +28,10 @@ public class MemberController {
 	// 장점 1) final을 통해 상수로 사용가능 2) 다형성 구현가능 3) 순환 참조 방지
 
 	private final MemberService memberService;
-	private final View error;
 
 	@Autowired
-	public MemberController(MemberService memberService, View error){
+	public MemberController(MemberService memberService){
 		this.memberService = memberService;
-		this.error = error;
 	}
 
 	// // 의존성주입 방법2. 필드주입방식(Autowired만 사용) -> 다형성 구현이 안됨: 이 부분 짚고 넘어가기

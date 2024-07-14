@@ -97,7 +97,7 @@ public class HelloController {
 	}
 
 	// case6. 서버에서 화면에 데이터를 넣어 사용자에게 리턴하는 형식 (model객체 사용)
-	// 	RestController는 데이터 리턴 형식이므로 화면을 리턴하는 케이스에서는 사용할 수 없음
+	// RestController는 데이터 리턴 형식이므로 화면을 리턴하는 케이스에서는 사용할 수 없음
 	// model을 통해서 화면에다 주입했다
 	// 	요청 방식: localhost:8080/hello/model-param?name=hong
 	@GetMapping("/model-param")

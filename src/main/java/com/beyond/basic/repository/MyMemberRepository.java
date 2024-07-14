@@ -1,2 +1,7 @@
-package com.beyond.basic.repository;public interface MyMemberRepository {
+package com.beyond.basic.repository;
+
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface MyMemberRepository extends MemberRepository{
 }

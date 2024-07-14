@@ -1,6 +1,7 @@
 package com.beyond.basic.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.beyond.basic.domain.Member;
 
@@ -10,7 +11,7 @@ public interface MemberRepository {
 
 	List<Member> findAll();	// 	select * from ;
 
-	Member findById(Long id);  // select * from where id = id
+	Optional<Member> findById(Long id);  // select * from where id = id
 
 
 }

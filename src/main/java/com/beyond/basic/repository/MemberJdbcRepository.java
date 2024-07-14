@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -40,7 +41,7 @@ public class MemberJdbcRepository implements MemberRepository {
 	}
 
 	@Override
-	public Member findById(Long id) {
+	public Optional<Member> findById(Long id) {
 		Member member = new Member();
 		try {
 			Connection connection = dataSource.getConnection();
@@ -56,7 +57,7 @@ public class MemberJdbcRepository implements MemberRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return member;
+		return Optional.ofNullable(member);
 	}
 
 	@Override

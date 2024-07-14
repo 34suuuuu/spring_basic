@@ -2,7 +2,9 @@ package com.beyond.basic.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import com.beyond.basic.repository.MemberJpaRepository;
 import com.beyond.basic.repository.MemberMemoryRepository;
 import com.beyond.basic.repository.MemberMyBatisRepository;
 import com.beyond.basic.repository.MemberRepository;
+import com.beyond.basic.repository.MemberSpringDataJpaRepository;
+import com.beyond.basic.repository.MyMemberRepository;
 
 // input값의 검증 및 실질적인 비니지스 로직은 서비스 계층에서 수행
 @Service    //서비스 계층임을 표현한과 동시에 싱긅톤 객체로 생성
@@ -24,10 +28,10 @@ import com.beyond.basic.repository.MemberRepository;
 
 @Transactional
 public class MemberService {
-	private final MemberRepository memberRepository;
+	private final MyMemberRepository memberRepository;
 
 	@Autowired	//싱글톤 객체를 주입(DI) 받는다는 것을 의미
-	public MemberService(MemberJpaRepository memberMemoryRepository){
+	public MemberService(MyMemberRepository memberMemoryRepository){
 		this.memberRepository = memberMemoryRepository;
 	}
 
@@ -43,8 +47,11 @@ public class MemberService {
 	}
 
 	public MemberDetailResDto memberDetail(Long id){
-		Member member = memberRepository.findById(id);
+		Optional<Member> optMember = memberRepository.findById(id);
 		MemberDetailResDto resDto = new MemberDetailResDto();
+		// 클라이언트에게 적절함 예외 메시지와 상태코드를 주는것이 주요 목적
+		// 또한 예외를 강제 발생시킴으로서 적절한 롤백처리 하는 것도 주요 목적
+		Member member = optMember.orElseThrow(() -> new EntityNotFoundException("없는 회원입니다."));
 		resDto.setId(member.getId());
 		resDto.setName(member.getName());
 		resDto.setEmail(member.getEmail());
