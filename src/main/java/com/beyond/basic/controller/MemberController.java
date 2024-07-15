@@ -8,17 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.View;
 
-import com.beyond.basic.domain.Member;
-import com.beyond.basic.domain.MemberDetailResDto;
+import com.beyond.basic.domain.MemberDetResDto;
 import com.beyond.basic.domain.MemberReqDto;
 import com.beyond.basic.domain.MemberResDto;
 import com.beyond.basic.service.MemberService;
-
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 // @RequiredArgsConstructor
 @Controller
@@ -26,6 +20,7 @@ public class MemberController {
 
 	// 의존성주입(DI) 방법1. 생성자 주입방식 (가장 많이 사용하는 방식)
 	// 장점 1) final을 통해 상수로 사용가능 2) 다형성 구현가능 3) 순환 참조 방지
+	// 생성자가 1개밖에 없는 경우에는 Autowired 생략 가능
 
 	private final MemberService memberService;
 
@@ -66,7 +61,7 @@ public class MemberController {
 	@GetMapping("/member/detail/{id}")
 	// int 또는 long 받을 경우 스프링에서 형변화(String -> Long)
 	public String memberDetail(@PathVariable Long id, Model model) {
-		MemberDetailResDto member = memberService.memberDetail(id);
+		MemberDetResDto member = memberService.memberDetail(id);
 		model.addAttribute("member", member);
 		return "member/member-detail";
 	}

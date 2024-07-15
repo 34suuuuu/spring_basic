@@ -1,7 +1,5 @@
 package com.beyond.basic.domain;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberResDto {
-	private Long id;
-	private String name;
-	private String email;
+public class PostReqDto {
+	private String title;
+
+	public Post toEntity(){
+		Post post = new Post(this.title);
+		return post;
+	}
 }

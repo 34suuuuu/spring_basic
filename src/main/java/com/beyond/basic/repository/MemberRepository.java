@@ -12,6 +12,4 @@ public interface MemberRepository {
 	List<Member> findAll();	// 	select * from ;
 
 	Optional<Member> findById(Long id);  // select * from where id = id
-
-
 }
