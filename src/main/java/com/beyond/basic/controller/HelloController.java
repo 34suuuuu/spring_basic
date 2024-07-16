@@ -3,6 +3,8 @@ package com.beyond.basic.controller;
 import java.io.File;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +39,11 @@ public class HelloController {
 	// responsebody를 사용하면 화면이 아닌 데이터를 return
 	// 만약 여기서 responsebody가 없고 return이 스트링이면 스프링은
 	// templates폴더 및에 helloworld.html화면을 찾아 리턴
-	public String helloWorld() {
+	public String helloWorld(){
+	// 	아래와 같이 Controller에서도 HttpServletRequest를 주입받아 사용 가능
+	// public String helloWorld(HttpServletRequest request) {
+	// 	System.out.println(request.getSession());
+	// 	System.out.println(request.getHeader("Cookie"));
 		return "helloworld";
 	}
 

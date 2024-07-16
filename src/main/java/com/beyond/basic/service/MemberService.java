@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +21,7 @@ import com.beyond.basic.repository.MyMemberRepository;
 // input값의 검증 및 실질적인 비니지스 로직은 서비스 계층에서 수행
 @Service    //서비스 계층임을 표현한과 동시에 싱긅톤 객체로 생성
 // Transactional 어노테이션을 통해 모든 메서드에 트랜잭션을 적용하고, 만약 예외가 발생시 롤백처리 자동화(각 메서드마다 하나의 트랜잭션으로 묶는다는 뜻)
-
-@Transactional
+@Transactional(readOnly = true)
 public class MemberService {
 	private final MyMemberRepository memberRepository;
 
@@ -31,12 +30,16 @@ public class MemberService {
 		this.memberRepository = memberMemoryRepository;
 	}
 
-	public void memberCreate(MemberReqDto dto){
+	public Member memberCreate(MemberReqDto dto){
 		if (dto.getPassword().length() < 8) {
 			throw new IllegalArgumentException("비밀번호가 너무 짧습니다.");
 		}
 		Member member = dto.toEntity();
-		memberRepository.save(member);
+		return memberRepository.save(member);
+		// 	Transactional 롤백처리 테스트
+		// if(member.getName().equals("kim")){
+		// 	throw new IllegalArgumentException("롤백처리 테스트 예외");
+		// }
 	}
 
 	public MemberDetResDto memberDetail(Long id){

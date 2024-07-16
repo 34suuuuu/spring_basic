@@ -12,14 +12,14 @@ import org.springframework.stereotype.Repository;
 import com.beyond.basic.domain.Member;
 
 @Repository
-public class MemberJpaRepository implements MemberRepository{
-	// EntityManager는 JPA의 핵심 클래스(객체)
-	// Entity의 생명 주기를 관리하고 데이터베이스와의 모든 인터페이싱을 책임진다.
-	// 즉, 엔티티를 대상으로 CRUD하는 기능을 제공
-	@Autowired
-	private EntityManager entityManager;
+	public class MemberJpaRepository implements MemberRepository{
+		// EntityManager는 JPA의 핵심 클래스(객체)
+		// Entity의 생명 주기를 관리하고 데이터베이스와의 모든 인터페이싱을 책임진다.
+		// 즉, 엔티티를 대상으로 CRUD하는 기능을 제공
+		@Autowired
+		private EntityManager entityManager;
 
-	@Override
+		@Override
 	public Member save(Member member) {
 		// persist: 전달된 엔티티(Member)가 EntityManager의 관리상태가 되도록 만들어주고 트랜잭션이 커밋될 때 저장, insert
 		entityManager.persist(member);
