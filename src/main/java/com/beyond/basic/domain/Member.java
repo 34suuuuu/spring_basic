@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 // 해당 클래스명으로 테이블 및 컬럼을 자동생성하고 각종 설정정보 위임
 @Entity
 @NoArgsConstructor	// 기본생성자는 JPA에서 필수
-public class Member {
+public class Member extends BaseEntity{
 	@Id	// pk설정
 	// Identity: auto_increment설정
 	// auto: jpa 자동으로 적절한 전략을 선택하도록 맡기는 것.
@@ -39,12 +39,11 @@ public class Member {
 	@OneToMany(mappedBy = "member")
 	private List<Post> posts;
 
-
 	// camel케이스 사용시 db에는 언더바로 생성
-	@CreationTimestamp    //db에는 current timestamp가 생성되지않음
-	private LocalDateTime createdTime;
-	@UpdateTimestamp
-	private LocalDateTime updateTime;
+	// @CreationTimestamp    //db에는 current timestamp가 생성되지않음
+	// private LocalDateTime createdTime;
+	// @UpdateTimestamp
+	// private LocalDateTime updateTime;
 
 	public Member(String name, String email, String password) {
 		this.name = name;

@@ -1,6 +1,10 @@
 package com.beyond.basic.controller;
 
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,12 +35,15 @@ import com.beyond.basic.service.MemberService;
 public class MemberRestController {
 
 	private final MemberService memberService;
-	private final MemberController memberController;
 
 	@Autowired
-	public MemberRestController(MemberService memberService, MemberController memberController){
+	public MemberRestController(MemberService memberService){
 		this.memberService = memberService;
-		this.memberController = memberController;
+	}
+
+	@GetMapping("/member/text")
+	public String memberText(){
+		return "ok";
 	}
 
 	@GetMapping("/member/list")
@@ -47,6 +53,7 @@ public class MemberRestController {
 	// 	return memberList;
 	// }
 	public ResponseEntity<CommonResDto> memberList(Model model) {
+
 		// repository에서 받는 List<Member>를 화면에 출력하기위해 필요한 Model객체
 		List<MemberResDto> memberList = memberService.memberList();
 		CommonResDto commonResDto = new CommonResDto(HttpStatus.OK, "memberList ok", memberList);
@@ -60,11 +67,11 @@ public class MemberRestController {
 	public ResponseEntity<Object> memberDetail(@PathVariable Long id) {
 		try{
 			MemberDetResDto memberDetResdto = memberService.memberDetail(id);
-			CommonResDto commonResDto = new CommonResDto(HttpStatus.OK, "detail ok", memberDetResdto);
+			CommonResDto commonResDto = new CommonResDto(HttpStatus.OK, "member is found", memberDetResdto);
 			return new ResponseEntity<>(commonResDto, HttpStatus.OK);
-		}catch(Exception e){
+		}catch(EntityNotFoundException e){
 			e.printStackTrace();
-			CommonErrorDto commonErrorDto = new CommonErrorDto(HttpStatus.NOT_FOUND, "detail not found");
+			CommonErrorDto commonErrorDto = new CommonErrorDto(HttpStatus.NOT_FOUND, e.getMessage());
 			return new ResponseEntity<>(commonErrorDto, HttpStatus.NOT_FOUND);
 		}
 	}
@@ -82,13 +89,14 @@ public class MemberRestController {
 	// 	}
 	// }
 	public ResponseEntity<Object> memberCreatePost(@RequestBody MemberReqDto dto) {
-		try{
-			Member member = memberService.memberCreate(dto);
-			CommonResDto commonResDto = new CommonResDto(HttpStatus.OK, "create ok", member);
+		try {
+			// Member member = memberService.memberCreate(dto);
+			memberService.memberCreate(dto);
+			CommonResDto commonResDto = new CommonResDto(HttpStatus.OK, "create ok", null);
 			return new ResponseEntity<>(commonResDto, HttpStatus.OK);
-		}catch(Exception e){
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-			CommonErrorDto commonErrorDto = new CommonErrorDto(HttpStatus.BAD_REQUEST, "create error");
+			CommonErrorDto commonErrorDto = new CommonErrorDto(HttpStatus.BAD_REQUEST, e.getMessage());
 			return new ResponseEntity<>(commonErrorDto, HttpStatus.BAD_REQUEST);
 		}
 	}

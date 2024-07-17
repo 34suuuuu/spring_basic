@@ -1,5 +1,7 @@
 package com.beyond.basic.service;
 
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,16 +32,19 @@ public class MemberService {
 		this.memberRepository = memberMemoryRepository;
 	}
 
-	public Member memberCreate(MemberReqDto dto){
+	public void memberCreate(MemberReqDto dto){
 		if (dto.getPassword().length() < 8) {
 			throw new IllegalArgumentException("비밀번호가 너무 짧습니다.");
 		}
 		Member member = dto.toEntity();
-		return memberRepository.save(member);
 		// 	Transactional 롤백처리 테스트
 		// if(member.getName().equals("kim")){
-		// 	throw new IllegalArgumentException("롤백처리 테스트 예외");
+		// 	throw new IllegalArgumentException("잘못된 입력값입니다.");
 		// }
+		if(memberRepository.findByEmail(dto.getEmail()).isPresent()){
+			throw new IllegalArgumentException("이미 존재하는 이메일 입니다.");
+		}
+		memberRepository.save(member);
 	}
 
 	public MemberDetResDto memberDetail(Long id){

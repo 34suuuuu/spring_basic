@@ -81,14 +81,15 @@ public class MemberController {
 	// 	name, email, password
 	@PostMapping("/member/create")
 	public String memberCreatePost(MemberReqDto dto, Model model) {
-		try{
-			memberService.memberCreate(dto);
-			// 화면 리턴이 아닌 url재호출
-			// 화면 리턴을 하면 데이터가 없기 때문에 Model에 데이터를 넣어줘야해서
-			return "redirect:/member/list";
-		}catch(IllegalArgumentException e){
-			model.addAttribute("error", e.getMessage());
-			return "member/member-error";
-		}
+		// try{
+		// 	memberService.memberCreate(dto);
+		// 	// 화면 리턴이 아닌 url재호출
+		// 	// 화면 리턴을 하면 데이터가 없기 때문에 Model에 데이터를 넣어줘야해서
+		// 	return "redirect:/member/list";
+		// }catch(IllegalArgumentException e){
+		// 	model.addAttribute("error", e.getMessage());
+		// 	return "member/member-error";
+		// }
+		return"";
 	}
 }
