@@ -29,9 +29,12 @@ import com.beyond.basic.domain.MemberResDto;
 import com.beyond.basic.domain.MemberUpdateDto;
 import com.beyond.basic.service.MemberService;
 
+import io.swagger.annotations.Api;
+
 @RestController
 // RestController의 경우 모든 메서드 상단에 @ResponseBody가 붙는 효과
 @RequestMapping("/rest")
+@Api(tags="회원관리서비스")
 public class MemberRestController {
 
 	private final MemberService memberService;
